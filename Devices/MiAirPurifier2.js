@@ -336,7 +336,7 @@ MiAirPurifier2AirPurifierAccessory.prototype.getServices = function() {
     pm25DensityCharacteristic
 	    .on('get', function(callback) {
 			this.device.call("get_prop", ["aqi"]).then(result => {
-                that.platform.log.debug("[MiAirPurifierPlatform][DEBUG]MiAirPurifier2AirPurifierAccessory - aqi - getHumidity: " + result);
+                that.platform.log.debug("[MiAirPurifierPlatform][DEBUG]MiAirPurifier2AirPurifierAccessory - aqi - getPm25Density: " + result);
                 callback(null, result[0]);
                 
                 // Based on Index level for PM2.5 http://www.eea.europa.eu/themes/air/air-quality-index
@@ -356,7 +356,7 @@ MiAirPurifier2AirPurifierAccessory.prototype.getServices = function() {
                 }
                 airQualityCharacteristic.updateValue(airQualityValue);
             }).catch(function(err) {
-                that.platform.log.error("[MiAirPurifierPlatform][ERROR]MiAirPurifier2AirPurifierAccessory - aqi - getHumidity Error: " + err);
+                that.platform.log.error("[MiAirPurifierPlatform][ERROR]MiAirPurifier2AirPurifierAccessory - aqi - getPm25Density Error: " + err);
                 callback(err);
             });
 	    }.bind(this));
