@@ -619,15 +619,16 @@ MiAirPurifier2SAirQualityAccessory.prototype.getServices = function() {
                 
                 pm2_5Characteristic.updateValue(result[0]);
                 
-                if(result[0] <= 50) {
+                // Based on Index level for PM2.5 http://www.eea.europa.eu/themes/air/air-quality-index
+                if (result[0] <= 10) {
                     callback(null, Characteristic.AirQuality.EXCELLENT);
-                } else if(result[0] > 50 && result[0] <= 100) {
+                } else if (result[0] > 10 && result[0] <= 20) {
                     callback(null, Characteristic.AirQuality.GOOD);
-                } else if(result[0] > 100 && result[0] <= 200) {
+                } else if (result[0] > 20 && result[0] <= 25) {
                     callback(null, Characteristic.AirQuality.FAIR);
-                } else if(result[0] > 200 && result[0] <= 300) {
+                } else if (result[0] > 25 && result[0] <= 50) {
                     callback(null, Characteristic.AirQuality.INFERIOR);
-                } else if(result[0] > 300) {
+                } else if (result[0] > 50) {
                     callback(null, Characteristic.AirQuality.POOR);
                 } else {
                     callback(null, Characteristic.AirQuality.UNKNOWN);
