@@ -340,16 +340,17 @@ MiAirPurifierProAirPurifierAccessory.prototype.getServices = function() {
                 that.platform.log.debug("[MiAirPurifierPlatform][DEBUG]MiAirPurifier2AirPurifierAccessory - aqi - getHumidity: " + result);
                 callback(null, result[0]);
                 
+                // Based on Index level for PM2.5 http://www.eea.europa.eu/themes/air/air-quality-index
                 var airQualityValue = Characteristic.AirQuality.UNKNOWN;
-                if(result[0] <= 50) {
+                if (result[0] <= 10) {
                     airQualityValue = Characteristic.AirQuality.EXCELLENT;
-                } else if(result[0] > 50 && result[0] <= 100) {
+                } else if (result[0] > 10 && result[0] <= 20) {
                     airQualityValue = Characteristic.AirQuality.GOOD;
-                } else if(result[0] > 100 && result[0] <= 200) {
+                } else if (result[0] > 20 && result[0] <= 25) {
                     airQualityValue = Characteristic.AirQuality.FAIR;
-                } else if(result[0] > 200 && result[0] <= 300) {
+                } else if (result[0] > 25 && result[0] <= 50) {
                     airQualityValue = Characteristic.AirQuality.INFERIOR;
-                } else if(result[0] > 300) {
+                } else if (result[0] > 50) {
                     airQualityValue = Characteristic.AirQuality.POOR;
                 } else {
                     airQualityValue = Characteristic.AirQuality.UNKNOWN;
