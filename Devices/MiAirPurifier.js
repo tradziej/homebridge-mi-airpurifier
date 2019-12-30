@@ -364,6 +364,15 @@ MiAirPurifierAirPurifierAccessory.prototype.getServices = function() {
         }.bind(this));
     // services.push(filterMaintenanceService);
 
+    setInterval(function() {
+        activeCharacteristic.getValue();
+        currentAirPurifierStateCharacteristic.getValue();
+        targetAirPurifierStateCharacteristic.getValue();
+        rotationSpeedCharacteristic.getValue();
+        pm25DensityCharacteristic.getValue();
+        airQualityCharacteristic.getValue();
+    }, 5000);
+
     return services;
 }
 
@@ -501,8 +510,8 @@ MiAirPurifierAirQualityAccessory.prototype.getServices = function() {
     
     var pmService = new Service.AirQualitySensor(this.name);
     var pm2_5Characteristic = pmService.addCharacteristic(Characteristic.PM2_5Density);
-    pmService
-        .getCharacteristic(Characteristic.AirQuality)
+    var airQualityCharacteristic = pmService.getCharacteristic(Characteristic.AirQuality);
+    airQualityCharacteristic
         .on('get', function(callback) {
             that.device.call("get_prop", ["aqi"]).then(result => {
                 that.platform.log.debug("[MiAirPurifierPlatform][DEBUG]MiAirPurifierAirQualityAccessory - AirQuality - getAirQuality: " + result);
@@ -529,6 +538,10 @@ MiAirPurifierAirQualityAccessory.prototype.getServices = function() {
             });
         }.bind(this));
     services.push(pmService);
+
+    setInterval(function() {
+      airQualityCharacteristic.getValue();
+    }, 5000);
 
     return services;
 }
